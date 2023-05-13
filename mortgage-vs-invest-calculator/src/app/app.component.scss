@@ -1,0 +1,19 @@
+.calc-container {
+    width: 100%;
+    display: grid;
+    margin-top: 5%;
+}
+
+.results-container {
+    display: grid;
+}
+
+label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5%;
+}
+
+input {
+    width: 50%;
+}
