@@ -421,35 +421,96 @@
 
   <!-- Links -->
   <div class="results-container">
-    <div *ngIf="currentMortgage">
-      Current Mortgage Payment = {{currentMortgage.monthlyPayment | currency}}
-    </div>
-    <div *ngIf="currentMortgage">
-      Total Interest Paid Without Extra Payments = {{currentMortgage.totalInterestPaid | currency}}
-    </div>
-    <div *ngIf="currentMortgage">
-      New Mortgage Payment (Current Mortgage + Extra) = {{newMortgage.monthlyPayment + newMortgage.extraPayment| currency}}
-    </div>
-    <div *ngIf="newMortgage">
-      Total Interest Paid With Extra Payments = {{newMortgage.totalInterestPaid| currency}}
-    </div>
-    <div *ngIf="newMortgage">
-      Time to Payoff with Extra Payments = {{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} years
-    </div>
+    <table>
+      <tr>
+        <td>
+          <div *ngIf="currentMortgage">
+            Current Mortgage Payment
+          </div>
+        </td>
+        <td>
+          <div *ngIf="currentMortgage">
+            {{currentMortgage.monthlyPayment | currency}}
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div *ngIf="currentMortgage">
+            Total Interest Paid Without Extra Payments
+          </div>
+        </td>
+        <td>
+          {{currentMortgage.totalInterestPaid | currency}}
+        </td>
+      </tr>
+    </table>
 
-    <div *ngIf="investmentWithMortgagePayoffTimeline">
-      Expected Investment Balance At Time of Mortgage Payoff ({{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} Years) = {{investmentWithMortgagePayoffTimeline.totalValue| currency}}
-    </div>
+    <table>
+      <tr>
+        <td>
+          <div *ngIf="currentMortgage">
+            New Mortgage Payment (Current Mortgage + Extra)
+          </div>
+        </td>
+        <td>
+          {{newMortgage.monthlyPayment + newMortgage.extraPayment| currency}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div *ngIf="newMortgage">
+            Total Interest Paid With Extra Payments
+          </div>
+        </td>
+        <td>
+          {{newMortgage.totalInterestPaid| currency}}
+        </td>
+      </tr>
 
-    <div>
-      Expected Time to Reach Mortgage Principal Balance in Investment Account  = {{timeToPayoffMortgageWithInvestment(currentMortgage,investment) / 12 | number: '1.0-1'}}
-    </div>
+      <tr>
+        <td>
+          <div *ngIf="newMortgage">
+            Time to Payoff with Extra Payments
+          </div>
+        </td>
+        <td>
+          {{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} years
+        </td>
+      </tr>
 
+      <tr>
+        <td>
+          <div *ngIf="investmentWithMortgagePayoffTimeline">
+            Expected Investment Balance At Time of Mortgage Payoff ({{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} Years)
+          </div>
+        </td>
+        <td>
+          {{investmentWithMortgagePayoffTimeline.totalValue| currency}}
+        </td>
+      </tr>
 
-
-    <div *ngIf="investment">
-      Expected Investment Balance = {{investment.totalValue| currency}}
-    </div>
+      <tr>
+        <td>
+          <div>
+            Expected Time to Reach Mortgage Principal Balance in Investment Account
+          </div>
+        </td>
+        <td>
+          {{timeToPayoffMortgageWithInvestment(currentMortgage,investment) / 12 | number: '1.0-1'}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div *ngIf="investment">
+            Expected Investment Balance
+          </div>
+        </td>
+        <td>
+          {{investment.totalValue| currency}}
+        </td>
+      </tr>
+    </table>
   </div>
 
   <!-- Footer -->

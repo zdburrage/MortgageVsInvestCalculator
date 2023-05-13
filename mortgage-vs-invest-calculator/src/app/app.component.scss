@@ -6,6 +6,7 @@
 
 .results-container {
     display: grid;
+    width: 100%;
 }
 
 label {
@@ -16,4 +17,10 @@ label {
 
 input {
     width: 50%;
+}
+
+table {
+    margin: 2%;
+    width: 100%;
+    border: 1px solid black;
 }
