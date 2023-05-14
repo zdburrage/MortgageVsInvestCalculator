@@ -2,6 +2,7 @@ export class Investment {
     initialAmount: number;
     monthlyContribution: number;
     annualInterestRate: number;
+    capitalGainsTaxRate: number;
     investmentTerm: number;
     totalValue: number;
   
@@ -9,6 +10,7 @@ export class Investment {
       this.initialAmount = initialAmount;
       this.monthlyContribution = monthlyContribution;
       this.annualInterestRate = annualInterestRate / 100; // convert to decimal
+      this.capitalGainsTaxRate = 0.30; // convert to decimal
       this.investmentTerm = investmentTerm;
       this.totalValue = 0; // initialize total value
     }
@@ -32,6 +34,11 @@ export class Investment {
         this.totalValue = this.totalValue * (1 + this.annualInterestRate / 12) + this.monthlyContribution;
         return this.totalValue;
     }
+    
+      calculateCapitalGainsTax(): number {
+        let gain = this.totalValue - this.initialAmount;
+        return gain > 0 ? gain * this.capitalGainsTaxRate : 0;
+    }
 
     calculateInvestmentGrowth(): any[] {
         this.totalValue = 0;
@@ -40,10 +47,13 @@ export class Investment {
     
         for (let i = 0; i < months; i++) {
           let monthlyReturn = this.calculateMonthlyReturn();
+          let capitalGainsTax = this.calculateCapitalGainsTax();
+          let afterTaxProfit = monthlyReturn - this.initialAmount - capitalGainsTax;
     
           investmentGrowthSchedule.push({
             month: i + 1,
             totalValue: monthlyReturn,
+            afterTaxValue: this.initialAmount + afterTaxProfit,
           });
         }
     

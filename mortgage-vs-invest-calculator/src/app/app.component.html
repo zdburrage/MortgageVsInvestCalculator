@@ -617,11 +617,13 @@
       <th>Month</th>
       <th>Contribution</th>
       <th>Total Value</th>
+      <th>After Tax Value</th>
     </tr>
     <tr *ngFor="let x of investment.calculateInvestmentGrowth()">
       <td>{{x?.month}}</td>
       <td>{{investment.monthlyContribution}}</td>
       <td>{{x?.totalValue | currency}}</td>
+      <td>{{x?.afterTaxValue | currency}}</td>
     </tr>
   </table>
 </div>
