@@ -31,6 +31,23 @@ export class Investment {
     calculateMonthlyReturn(): number {
         this.totalValue = this.totalValue * (1 + this.annualInterestRate / 12) + this.monthlyContribution;
         return this.totalValue;
+    }
+
+    calculateInvestmentGrowth(): any[] {
+        this.totalValue = 0;
+        let investmentGrowthSchedule = [];
+        let months = this.investmentTerm * 12;
+    
+        for (let i = 0; i < months; i++) {
+          let monthlyReturn = this.calculateMonthlyReturn();
+    
+          investmentGrowthSchedule.push({
+            month: i + 1,
+            totalValue: monthlyReturn,
+          });
+        }
+    
+        return investmentGrowthSchedule;
       }
   }
   

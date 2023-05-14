@@ -1,3 +1,14 @@
+$muted-grey: #999;
+$purple: #0d00ff;
+$white: #fff;
+
+$base-shadow: rgba(0, 0, 0, 0.12);
+$purple-shadow-from: rgba(43, 0, 255, 0.42);
+$purple-shadow-to: rgba(0, 60, 255, 0.2);
+$purple-box-shadow: 0 14px 26px -12px $purple-shadow-from, 0 4px 23px 0px
+    $base-shadow, 0 8px 10px -5px $purple-shadow-to;
+
+
 .calc-container {
     width: 100%;
     display: grid;
@@ -5,22 +16,79 @@
 }
 
 .results-container {
-    display: grid;
+    display: flex;
     width: 100%;
 }
+
+.table-container {
+    display: flex;
+    width: 100%
+}
+
 
 label {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
 input {
     width: 50%;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    border-top: none;
+    border-right: none;
+    border-left: none;
 }
 
-table {
-    margin: 2%;
+.strict {
+    margin: 5px;
     width: 100%;
     border: 1px solid black;
+    font-size: small;
+    font-family: 'Roboto', sans-serif;
+    border-collapse: collapse;
+
+    td {
+        text-align: center;
+    }
+
+    th, td {
+        border: 1px solid black;
+        margin: 5%;
+    }
+}
+
+.freeform {
+    width: 100%;
+    border: none;
+
+}
+
+
+form {
+    margin-bottom: 5%;
+}
+
+button {
+    padding: 15px 50px;
+    text-transform: uppercase;
+    background: $purple;
+    border: 2px solid $purple;
+    color: $white;
+    font-weight: 600;
+    font-size: 0.75rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s;
+    &:hover {
+      opacity: 0.8;
+      box-shadow: $purple-box-shadow;
+    }
+}
+
+.summary {
+    margin: 5%;
 }
