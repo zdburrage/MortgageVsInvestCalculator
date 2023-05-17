@@ -24,6 +24,7 @@ export class Mortgage {
     }
   
     calculateAmortization(): any[] {
+    this.totalInterestPaid = 0;
       let balance = this.loanAmount;
       let amortizationSchedule = [];
       let i = 0;

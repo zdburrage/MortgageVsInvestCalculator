@@ -383,38 +383,39 @@
       <div class="calc-container">
         <label>
           Current Mortgage Balance:
-          <input type="number" placeholder="0" formControlName="mortgageBalance">
+          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="mortgageBalance">
         </label>
       
         <label>
           Mortgage Interest Rate (%):
-          <input type="number" placeholder="0" formControlName="mortgageInterestRate">
+          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="mortgageInterestRate">
         </label>
       
         <label>
           Remaining Term (in years):
-          <input type="number" placeholder="0" formControlName="remainingTerm">
+          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="remainingTerm">
         </label>
       
         <label>
           Expected Rate of Return on Investment (%):
-          <input type="number" placeholder="0" formControlName="expectedReturnRate">
+          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="expectedReturnRate">
         </label>
       
         <label>
           Extra Money Available Per Month:
-          <input type="number" placeholder="0" formControlName="extraMoney">
+          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="extraMoney">
         </label>
-        <button type="submit">Calculate</button>
+        <button class="calc" type="submit">Calculate</button>
       </div>
     
     </form>
 
 
-  </div>
+  </div >
+
 
   <!-- Next Steps -->
-  <h2>Results Summary</h2>
+  <h2 *ngIf="showResults">Results Summary</h2>
 
   <input type="hidden" #selection>
 
@@ -423,42 +424,27 @@
     Conversely, if you were to continue paying the minimum mortgage payment and investing your extra payment amount each month, you could expect
     to reach enough funds to pay off your mortgage principal in <b>{{timeToPayoffMortgageWithInvestment(currentMortgage,investment) / 12 | number: '1.0-1'}} years</b>.
     Were you to continue investing past that date and forego paying your house off, your investment account would be worth  <b>{{investment.totalValue| currency}}</b>
-    by the time your mortgage is fully paid off.
+    by the time your mortgage is fully paid off. <div *ngIf="investment.totalWithTaxesPaid > 0">Assuming this is a taxable account with a capital gains tax rate of 20%, your total account value after taxes would be <b>{{investment.getTotalTaxesPaid() | currency}}</b></div>
   </div>
-
-  <!-- Links -->
-
-
-  <!-- Footer -->
-  <footer>
-      <!-- Love Angular?&nbsp;
-      <a href="https://github.com/angular/angular" target="_blank" rel="noopener"> Give our repo a star.
-        <div class="github-star-badge">
-            <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          Star
-        </div>
-      </a>
-      <a href="https://github.com/angular/angular" target="_blank" rel="noopener">
-        <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" fill="#1976d2"/><path d="M0 0h24v24H0z" fill="none"/></svg>
-      </a> -->
-  </footer>
-
-
 </div>
-<div class="results-container">
+
+<div class="tab" *ngIf="showResults">
+  <button [ngClass]="{'active': cmTabOpen}"class="tab-links" (click)="openTab('CM')">Current Mortgage</button>
+  <button [ngClass]="{'active': mepTabOpen}" class="tab-links" (click)="openTab('MEP')">Mortgage With Extra Payment</button>
+  <button [ngClass]="{'active': iaTabOpen}" class="tab-links" (click)="openTab('IA')">Investment Account</button>
+</div> 
+
+
+<div class="tab-content" *ngIf="showResults && cmTabOpen">
+  <h2>Current Mortgage</h2>
   <table class="freeform">
-   <tr>
-     <th>
-       Current Mortgage
-     </th>
-   </tr>
     <tr>
       <td>
         <div>
           Payment (Principal + Interest)
         </div>
       </td>
-      <td>
+      <td class="currency">
         <div *ngIf="showResults">
           {{currentMortgage.monthlyPayment | currency}}
         </div>
@@ -470,114 +456,12 @@
           Total Interest Over Duration of Loan 
         </div>
       </td>
-      <td *ngIf="showResults">
+      <td class="currency" *ngIf="showResults">
         {{currentMortgage.totalInterestPaid | currency}}
       </td>
     </tr>
   </table>
 
-  <table class="freeform">
-    <tr>
-      <th>
-        Mortgage With Extra Payment
-      </th>
-    </tr>
-    <tr>
-      <td>
-        <div >
-          New Mortgage Payment (Current Mortgage + Extra Payment)
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        {{newMortgage.monthlyPayment + newMortgage.extraPayment| currency}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div>
-          Total Interest Over Duration of Loan
-          </div>
-      </td>
-      <td *ngIf="showResults">
-        {{newMortgage.totalInterestPaid| currency}}
-      </td>
-    </tr>
-
-    <!-- <tr>
-      <td>
-        <div>
-          Time to Payoff with Extra Payments
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        {{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} years
-      </td>
-    </tr> -->
-<!-- 
-    <tr>
-      <td>
-        <div>
-          Expected Investment Balance At Time of Mortgage Payoff ({{newMortgage.monthsToPayoff / 12 | number : '1.0-1'}} Years)
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        {{investmentWithMortgagePayoffTimeline.totalValue| currency}}
-      </td>
-    </tr> -->
-
-    <!-- <tr>
-      <td>
-        <div>
-          Expected Time to Reach Mortgage Principal Balance in Investment Account
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        {{timeToPayoffMortgageWithInvestment(currentMortgage,investment) / 12 | number: '1.0-1'}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div>
-          Expected Investment Balance
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        {{investment.totalValue| currency}}
-      </td>
-    </tr> -->
-  </table>
-
-
-  <table class="freeform">
-    <tr>
-      <th>
-        Investment Account
-      </th>
-    </tr>
-    <tr>
-      <td>
-        <div >
-          xxxxx
-        </div>
-      </td>
-      <td *ngIf="showResults">
-        
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <div>
-          xxxxx
-          </div>
-      </td>
-      <td *ngIf="showResults">
-       
-      </td>
-    </tr>
-  </table>
-</div>
-  
-<div class="table-container">
   <table class="strict">
     <tr>
       <th>Month</th>
@@ -594,6 +478,37 @@
       <td>{{x?.balance | currency}}</td>
     </tr>
   </table>
+</div>
+
+<div class="tab-content" *ngIf="showResults && mepTabOpen">
+<h2>
+  Mortgage With Extra Payment
+</h2>
+
+
+  <table class="freeform">
+      <tr>
+        <td>
+          <div >
+            New Mortgage Payment (Current Mortgage + Extra Payment)
+          </div>
+        </td>
+        <td class="currency" *ngIf="showResults">
+          {{newMortgage.monthlyPayment + newMortgage.extraPayment| currency}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div>
+            Total Interest Over Duration of Loan
+            </div>
+        </td>
+        <td class="currency" *ngIf="showResults">
+          {{newMortgage.totalInterestPaid| currency}}
+        </td>
+      </tr>
+  </table>
+
   <table class="strict">
     <tr>
       <th>Month</th>
@@ -610,7 +525,36 @@
       <td>{{x?.balance | currency}}</td>
     </tr>
   </table>
+</div>
 
+<div class="tab-content" *ngIf="showResults && iaTabOpen">
+  <h2>
+    Investment Account
+  </h2>
+
+
+  <table class="freeform">
+    <tr>
+      <td>
+        <div >
+          Investment Balance After Full Loan Term
+        </div>
+      </td>
+      <td class="currency" *ngIf="showResults">
+        {{investment.totalValue| currency}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div>
+          Investment Balance After Full Loan Term With 20% Capital Gains Tax
+          </div>
+      </td>
+      <td class="currency" *ngIf="showResults">
+        {{investment.totalWithTaxesPaid| currency}}
+      </td>
+    </tr>
+  </table>
 
   <table class="strict">
     <tr>
@@ -626,14 +570,8 @@
       <td>{{x?.afterTaxValue | currency}}</td>
     </tr>
   </table>
-</div>
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+</div>
+  
 
 <router-outlet></router-outlet>

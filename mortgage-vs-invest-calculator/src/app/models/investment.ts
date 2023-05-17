@@ -5,14 +5,16 @@ export class Investment {
     capitalGainsTaxRate: number;
     investmentTerm: number;
     totalValue: number;
+    totalWithTaxesPaid: number;
   
     constructor(initialAmount: number, monthlyContribution: number, annualInterestRate: number, investmentTerm: number) {
       this.initialAmount = initialAmount;
       this.monthlyContribution = monthlyContribution;
       this.annualInterestRate = annualInterestRate / 100; // convert to decimal
-      this.capitalGainsTaxRate = 0.30; // convert to decimal
+      this.capitalGainsTaxRate = 0.20; // convert to decimal
       this.investmentTerm = investmentTerm;
-      this.totalValue = 0; // initialize total value
+      this.totalValue = 0; 
+      this.totalWithTaxesPaid = 0;// initialize total value
     }
   
     calculateInvestment(): number {
@@ -47,17 +49,23 @@ export class Investment {
     
         for (let i = 0; i < months; i++) {
           let monthlyReturn = this.calculateMonthlyReturn();
-          let capitalGainsTax = this.calculateCapitalGainsTax();
+          let capitalGainsTax = (monthlyReturn - ((i+1) * this.monthlyContribution)) * this.capitalGainsTaxRate
           let afterTaxProfit = monthlyReturn - this.initialAmount - capitalGainsTax;
     
           investmentGrowthSchedule.push({
             month: i + 1,
             totalValue: monthlyReturn,
-            afterTaxValue: this.initialAmount + afterTaxProfit,
+            afterTaxValue: monthlyReturn - capitalGainsTax,
           });
         }
+        let length = investmentGrowthSchedule.length;
+        this.totalWithTaxesPaid = investmentGrowthSchedule[length-1].afterTaxValue;
     
         return investmentGrowthSchedule;
+      }
+
+      getTotalTaxesPaid() {
+          return this.totalWithTaxesPaid;
       }
   }
   

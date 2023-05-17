@@ -3,8 +3,8 @@ $purple: #0d00ff;
 $white: #fff;
 
 $base-shadow: rgba(0, 0, 0, 0.12);
-$purple-shadow-from: rgba(43, 0, 255, 0.42);
-$purple-shadow-to: rgba(0, 60, 255, 0.2);
+$purple-shadow-from: rgba(162, 233, 104, 0.42);
+$purple-shadow-to: rgba(28, 113, 31, 0.2);
 $purple-box-shadow: 0 14px 26px -12px $purple-shadow-from, 0 4px 23px 0px
     $base-shadow, 0 8px 10px -5px $purple-shadow-to;
 
@@ -14,10 +14,41 @@ $purple-box-shadow: 0 14px 26px -12px $purple-shadow-from, 0 4px 23px 0px
     display: grid;
     margin-top: 5%;
 }
-
-.results-container {
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    justify-content: space-around;
     display: flex;
-    width: 100%;
+    background-color: #f1f1f1;
+    margin: 5%;
+
+    button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+
+        :hover {
+            background-color: #ddd;
+        }
+
+        &.active {
+            background-color: #ccc;
+        }
+    }
+}
+
+.tab-content {
+    display: grid;
+    width: 75%;
+    margin: auto;
+    h2 {
+        text-align: center;
+        margin: 5%;
+    }
 }
 
 .table-container {
@@ -65,6 +96,19 @@ input {
     width: 100%;
     border: none;
 
+    th {
+        width: 100%;
+        text-align: center;
+        font-size: large;
+        margin: 5%;
+    }
+
+    .currency {
+        font-weight: bold;
+        font-size: medium;
+        text-align: end;
+    }
+
 }
 
 
@@ -72,15 +116,15 @@ form {
     margin-bottom: 5%;
 }
 
-button {
+.calc {
     padding: 15px 50px;
     text-transform: uppercase;
-    background: $purple;
-    border: 2px solid $purple;
+    background: #0c7f3c;
+    border: 2px solid #0c7f3c;
     color: $white;
     font-weight: 600;
     font-size: 0.75rem;
-    border-radius: 50px;
+    border-radius: 5px;
     cursor: pointer;
     transition: all 0.4s;
     &:hover {
