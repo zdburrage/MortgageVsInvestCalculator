@@ -59,7 +59,7 @@ export class AppComponent {
       this.showResults = true; 
       this.cmTabOpen = true;
       this.submitted = false;
-      window.scroll(0, 1000);
+      window.scroll(0, 900);
     } 
   }
 
