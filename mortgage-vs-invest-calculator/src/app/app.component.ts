@@ -10,6 +10,11 @@ import { Mortgage } from './models/mortgage';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  @ViewChild('mortgage') mortgage: any;
+  @ViewChild('interest') interest: any;
+  @ViewChild('term') term: any;
+  @ViewChild('rate') rate: any;
+  @ViewChild('extra') extra: any;
   public currentMortgage: Mortgage = new Mortgage(0,0,0,0);
   public newMortgage: Mortgage = new Mortgage(0,0,0,0);
   public investment: Investment = new Investment(0,0,0,0);
@@ -62,8 +67,22 @@ export class AppComponent {
     return months;
   }
 
-  selectAllText(input: Event) {
+  focusNext(id: string) {
 
+    switch (id) {
+      case 'interest':
+        this.interest.nativeElement.focus();
+        break;
+      case 'term':
+        this.term.nativeElement.focus();
+        break;
+      case 'rate':
+        this.rate.nativeElement.focus();
+        break;
+        case 'extra':
+          this.extra.nativeElement.focus();
+        break;
+    }
 
 
   }

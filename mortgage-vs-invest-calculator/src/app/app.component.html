@@ -379,31 +379,31 @@
       <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
     </a> -->
 
-    <form [formGroup]="mortgageForm" (ngSubmit)="onSubmit()" style="width: 100%;">
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="mortgageForm" (ngSubmit)="onSubmit()" style="width: 100%;">
       <div class="calc-container">
         <label>
           Current Mortgage Balance:
-          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="mortgageBalance">
+          <input #mortgage onfocus="event.target.select()" (keyup.enter)="focusNext('interest')" type="number" placeholder="0" formControlName="mortgageBalance">
         </label>
       
         <label>
           Mortgage Interest Rate (%):
-          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="mortgageInterestRate">
+          <input #interest onfocus="event.target.select()" (keyup.enter)="focusNext('term')" type="number" placeholder="0" formControlName="mortgageInterestRate">
         </label>
       
         <label>
           Remaining Term (in years):
-          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="remainingTerm">
+          <input #term onfocus="event.target.select()" (keyup.enter)="focusNext('rate')" type="number" placeholder="0" formControlName="remainingTerm">
         </label>
       
         <label>
           Expected Rate of Return on Investment (%):
-          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="expectedReturnRate">
+          <input #rate onfocus="event.target.select()" (keyup.enter)="focusNext('extra')" type="number" placeholder="0" formControlName="expectedReturnRate">
         </label>
       
         <label>
           Extra Money Available Per Month:
-          <input onfocus="event.target.select()" type="number" placeholder="0" formControlName="extraMoney">
+          <input #extra onfocus="event.target.select()" (keyup.enter)="onSubmit()" type="number" placeholder="0" formControlName="extraMoney">
         </label>
         <button class="calc" type="submit">Calculate</button>
       </div>
