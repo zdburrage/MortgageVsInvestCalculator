@@ -1,0 +1,4 @@
+<div class="text-danger" *ngIf="control && control.errors">
+    <div *ngIf="control.errors.required"><small>This field is required</small></div>
+    <div *ngIf="control.errors.max"><small>The max value for this field is {{control.errors.max.max}}</small></div>
+</div>

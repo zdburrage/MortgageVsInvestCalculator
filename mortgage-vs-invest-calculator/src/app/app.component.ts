@@ -24,6 +24,9 @@ export class AppComponent {
   public iaTabOpen: boolean = false;
   public mepTabOpen: boolean = false;
 
+  public isMobile: boolean = false;
+  public submitted: boolean = false;
+
   
   mortgageForm = this.fb.group({
     mortgageBalance: [undefined, Validators.required],
@@ -33,22 +36,35 @@ export class AppComponent {
     extraMoney: [undefined, Validators.required]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+      this.isMobile = true;
+     }
+  }
 
   onSubmit() {
-    const { mortgageBalance, mortgageInterestRate, remainingTerm, expectedReturnRate, extraMoney } = this.mortgageForm.value;
+    this.submitted = true;
+    if (this.mortgageForm.valid) {
+      const { mortgageBalance, mortgageInterestRate, remainingTerm, expectedReturnRate, extraMoney } = this.mortgageForm.value;
 
-    this.currentMortgage = new Mortgage(mortgageBalance!,mortgageInterestRate!,remainingTerm!,0);
-    this.newMortgage = new Mortgage(mortgageBalance!,mortgageInterestRate!,remainingTerm!,extraMoney!);
-    this.currentMortgage.calculateAmortization();
-    this.newMortgage.calculateAmortization();
+      this.currentMortgage = new Mortgage(mortgageBalance!,mortgageInterestRate!,remainingTerm!,0);
+      this.newMortgage = new Mortgage(mortgageBalance!,mortgageInterestRate!,remainingTerm!,extraMoney!);
+      this.currentMortgage.calculateAmortization();
+      this.newMortgage.calculateAmortization();
+  
+      this.investmentWithMortgagePayoffTimeline = new Investment(0,extraMoney!,expectedReturnRate!,this.newMortgage.monthsToPayoff/12);
+      this.investmentWithMortgagePayoffTimeline.calculateInvestment();
+      this.investment = new Investment(0, extraMoney!, expectedReturnRate!, remainingTerm!);
+      this.investment.calculateInvestment();
+      this.showResults = true; 
+      this.cmTabOpen = true;
+      this.submitted = false;
+      window.scroll(0, 1000);
+    } 
+  }
 
-    this.investmentWithMortgagePayoffTimeline = new Investment(0,extraMoney!,expectedReturnRate!,this.newMortgage.monthsToPayoff/12);
-    this.investmentWithMortgagePayoffTimeline.calculateInvestment();
-    this.investment = new Investment(0, extraMoney!, expectedReturnRate!, remainingTerm!);
-    this.investment.calculateInvestment();
-    this.showResults = true; 
-    this.cmTabOpen = true;
+  get mortgageFormControl() {
+    return this.mortgageForm.controls;
   }
 
 
@@ -69,23 +85,27 @@ export class AppComponent {
 
   focusNext(id: string) {
 
-    switch (id) {
-      case 'interest':
-        this.interest.nativeElement.focus();
-        break;
-      case 'term':
-        this.term.nativeElement.focus();
-        break;
-      case 'rate':
-        this.rate.nativeElement.focus();
-        break;
-        case 'extra':
-          this.extra.nativeElement.focus();
-        break;
+    if (this.isMobile) {
+      switch (id) {
+        case 'interest':
+          this.interest.nativeElement.focus();
+          break;
+        case 'term':
+          this.term.nativeElement.focus();
+          break;
+        case 'rate':
+          this.rate.nativeElement.focus();
+          break;
+          case 'extra':
+            this.extra.nativeElement.focus();
+          break;
+      }
+    }  else {
+      this.onSubmit();
     }
 
-
   }
+
 
   openTab(tabName: string) {
     if (tabName === 'CM') {

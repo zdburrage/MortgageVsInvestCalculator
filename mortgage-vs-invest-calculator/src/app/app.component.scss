@@ -8,6 +8,44 @@ $purple-shadow-to: rgba(28, 113, 31, 0.2);
 $purple-box-shadow: 0 14px 26px -12px $purple-shadow-from, 0 4px 23px 0px
     $base-shadow, 0 8px 10px -5px $purple-shadow-to;
 
+    @media (max-width: 675px) {
+        input {
+            width: 100%;
+            margin: 5%;
+        }
+        label {
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        p {
+            text-align: center;
+            width: 100%;
+            margin: 5% !important;
+        }
+
+        h2 {
+            text-align: center;
+        }
+        print-error {
+            margin: auto;
+        }
+    }
+
+    @media (min-width: 676px) {
+        input {
+            width: 50%;
+        }
+        label {
+            width: 100%;
+        }
+    }
+
+.danger {
+    outline: 1px solid red;
+    border-radius: 5px;
+    border: none;
+
+}
 
 .calc-container {
     width: 100%;
@@ -66,7 +104,6 @@ label {
 }
 
 input {
-    width: 50%;
     text-align: center;
     font-family: 'Roboto', sans-serif;
     border-top: none;
