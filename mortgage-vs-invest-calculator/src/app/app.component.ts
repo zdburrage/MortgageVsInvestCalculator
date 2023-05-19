@@ -1,8 +1,9 @@
 import { formatNumber } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Investment } from './models/investment';
 import { Mortgage } from './models/mortgage';
+
 
 @Component({
   selector: 'app-root',
@@ -40,6 +41,7 @@ export class AppComponent {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
       this.isMobile = true;
      }
+     window.onbeforeunload = function() {window.scrollTo(0,0);}
   }
 
   onSubmit() {
@@ -59,7 +61,9 @@ export class AppComponent {
       this.showResults = true; 
       this.cmTabOpen = true;
       this.submitted = false;
-      window.scroll(0, 900);
+      setTimeout(function(){
+        document.getElementById('boom')?.scrollIntoView({ behavior: 'smooth'});
+      }, 200);
     } 
   }
 
